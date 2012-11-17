@@ -1,8 +1,10 @@
 <?PHP 
 require('functions.php'); 
 
-if($_POST[keywords]){
-	$results = walkProxies($_POST[keywords]);
+if(isset($_POST[keywords])){
+	$proxies = new proxies;
+	$proxies->keyword = $_POST[keywords];
+	$results = walkProxies();
 }
 
 ?>

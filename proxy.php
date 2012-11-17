@@ -2,11 +2,11 @@
 require('functions.php'); 
 
 // process submitted proxy list
-if($_POST['proxy-list']){
-	$results = updateProxies($_POST['proxy-list']);
+if(isset($_POST['proxy-list'])){
+	$results = proxies::updateProxies($_POST['proxy-list']);
 }
 
-$proxies = getProxiesTxt();
+$proxies = proxies::getProxiesTxt();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
