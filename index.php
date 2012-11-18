@@ -2,7 +2,7 @@
 require('functions.php'); 
 
 if(isset($_POST[keywords])){
-	proxies::$keyword = $_POST[keywords];
+	curl::$keyword = $_POST[keywords];
 	$results = proxies::walkProxies();
 }
 

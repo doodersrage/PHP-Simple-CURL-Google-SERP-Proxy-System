@@ -24,7 +24,7 @@ class file_handler{
 	// overwrite selected file
 	public static function update($data){
 	
-		$fh = fopen(self::$file_name, 'w') or die("can't open file");
+		$fh = fopen(self::$file_name, 'a') or die("can't open file");
 		fwrite($fh, $data);
 		fclose($fh);
 	

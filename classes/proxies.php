@@ -1,6 +1,5 @@
 <?PHP
 class proxies{
-	static $keyword = 'test';
 	static $usedProxies = array();
 	static $unusableProxies = array();
 	
@@ -53,7 +52,8 @@ class proxies{
 	// test selected proxy value
 	private function testProxy($proxy){
 		
-		$results = curlResults($proxy);
+		curl::$proxy;
+		$results = curl::results();
 
 		if($results[info][http_code] == 200){
 			return true;
@@ -78,8 +78,8 @@ class proxies{
 		self::updateProxies(self::$usedProxies);
 		
 		// save unusable proxies to text file for backup
-		file_handler::$file_name = 'badproxies.txt';
-		file_handler::write(implode("\n",self::$unusableProxies));
+		file_handler::$file_name = 'lists/badproxies.txt';
+		file_handler::update(implode("\n",self::$unusableProxies));
 		
 		return $results;
 	}
@@ -87,7 +87,8 @@ class proxies{
 	// test selected proxy value with assigned keyword
 	private function useProxy($proxy){
 		
-		$results = curlResults($proxy,self::keyword);
+		curl::$proxy;
+		$results = curl::results();
 		
 		if($results[info][http_code] == 200){
 			self::$usedProxies[] = $proxy;
