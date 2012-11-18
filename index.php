@@ -2,9 +2,8 @@
 require('functions.php'); 
 
 if(isset($_POST[keywords])){
-	$proxies = new proxies;
-	$proxies->keyword = $_POST[keywords];
-	$results = walkProxies();
+	proxies::$keyword = $_POST[keywords];
+	$results = proxies::walkProxies();
 }
 
 ?>

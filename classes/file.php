@@ -1,30 +1,30 @@
 <?PHP
-class file{
-	var $file;
+class file_handler{
+	static $file_name;
 	
 	// read in selected file
-	public static function fileRead($filename){
+	public static function read(){
 		
-		$fh = fopen($filename, 'r');
-		$data = trim(fread($fh, 5));
+		$fh = fopen(self::$file_name, 'r');
+		$data = fread($fh,filesize(self::$file_name));
 		fclose($fh);
 		
 		return $data;
 	}
 	
 	// write to selected file
-	public static function fileWrite($filename,$data){
+	public static function write($data){
 		
-		$fh = fopen($filename, 'w') or die("can't open file");
+		$fh = fopen(self::$file_name, 'w') or die("can't open file");
 		fwrite($fh, $data);
 		fclose($fh);
 		
 	}
 	
 	// overwrite selected file
-	public static function fileUpdate($filename,$data){
+	public static function update($data){
 	
-		$fh = fopen($filename, 'w') or die("can't open file");
+		$fh = fopen(self::$file_name, 'w') or die("can't open file");
 		fwrite($fh, $data);
 		fclose($fh);
 	

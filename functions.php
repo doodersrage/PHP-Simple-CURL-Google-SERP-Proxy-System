@@ -7,6 +7,9 @@
 require('classes/file.php');
 require('classes/proxies.php');
 
+// set default file
+file_handler::$file_name = 'proxies.txt';
+
 // send remote request for file
 function curlResults($proxy,$keyword = 'test'){
 	

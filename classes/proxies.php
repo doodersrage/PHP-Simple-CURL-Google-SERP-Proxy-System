@@ -1,8 +1,8 @@
 <?PHP
 class proxies{
-	var $keyword = 'test';
-	var $usedProxies = array();
-	var $unusableProxies = array();
+	static $keyword = 'test';
+	static $usedProxies = array();
+	static $unusableProxies = array();
 	
 	// updates existing or submitted proxy list
 	public static function updateProxies($proxylist = ''){
@@ -26,7 +26,7 @@ class proxies{
 				$testResults .= $curProxy.' not usable<br>';
 			}
 		}
-		file::fileWrite('proxies.txt',implode("\n",$usableProxies));
+		file_handler::write(implode("\n",$usableProxies));
 		
 		return $testResults;
 	}
@@ -34,7 +34,7 @@ class proxies{
 	// gather proxy list from saved flat file then convert to array
 	private function getProxies(){
 		
-		$proxies = file::fileRead('proxies.txt');
+		$proxies = file_handler::read();
 		
 		// break proxy list into an array
 		$proxies = explode("\n",$proxies);
@@ -45,7 +45,7 @@ class proxies{
 	// gather proxy list from flat file the store as string variable
 	public static function getProxiesTxt(){
 		
-		$proxies = file::fileRead('proxies.txt');
+		$proxies = file_handler::read();
 	
 		return $proxies;
 	}
@@ -67,10 +67,19 @@ class proxies{
 	public static function walkProxies(){
 		$proxies = self::getProxies();
 		
+		// walk through available proxies
 		$results = '';
+		self::$usedProxies = array();
 		foreach($proxies as $proxy){
 			$results .= self::useProxy($proxy,self::keyword);
 		}
+		
+		// update proxy list with only the proxies that worked
+		self::updateProxies(self::$usedProxies);
+		
+		// save unusable proxies to text file for backup
+		file_handler::$file_name = 'badproxies.txt';
+		file_handler::write(implode("\n",self::$unusableProxies));
 		
 		return $results;
 	}
@@ -81,8 +90,10 @@ class proxies{
 		$results = curlResults($proxy,self::keyword);
 		
 		if($results[info][http_code] == 200){
+			self::$usedProxies[] = $proxy;
 			return '<div class="results">'.$results[data].'<div>';
 		} else {
+			self::$unusableProxies[] = $proxy;
 			return '<div class="results">Unsable to retrieve results using proxy: '.$proxy.'<div>';
 		}
 	
