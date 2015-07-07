@@ -6,7 +6,11 @@ class file_handler{
 	public static function read(){
 		
 		$fh = fopen(self::$file_name, 'r');
-		$data = fread($fh,filesize(self::$file_name));
+		if(filesize(self::$file_name) > 0){
+			$data = fread($fh,filesize(self::$file_name));
+		} else {
+			$data = '';
+		}
 		fclose($fh);
 		
 		return $data;

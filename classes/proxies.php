@@ -2,6 +2,7 @@
 class proxies{
 	static $usedProxies = array();
 	static $unusableProxies = array();
+	static $keyword;
 	
 	// updates existing or submitted proxy list
 	public static function updateProxies($proxylist = ''){
@@ -15,14 +16,17 @@ class proxies{
 		$usableProxies = array();
 		$testResults = '';
 		foreach($proxies as $curProxy){
-			
-			$results = self::testProxy($curProxy);
 
-			if($results == true){
-				$usableProxies[] = $curProxy;
-				$testResults .= $curProxy.' added to proxy list<br>';
-			} else {
-				$testResults .= $curProxy.' not usable<br>';
+			if(!empty($curProxy)){
+				
+				$results = self::testProxy($curProxy);
+
+				if($results === true){
+					$usableProxies[] = $curProxy;
+					$testResults .= $curProxy.' added to proxy list<br>';
+				} else {
+					$testResults .= $curProxy.' not usable<br>';
+				}
 			}
 		}
 		file_handler::write(implode("\n",$usableProxies));
@@ -55,7 +59,7 @@ class proxies{
 		curl::$proxy;
 		$results = curl::results();
 
-		if($results[info][http_code] == 200){
+		if((int) $results['info'] === 200){
 			return true;
 		} else {
 			return false;
@@ -71,7 +75,9 @@ class proxies{
 		$results = '';
 		self::$usedProxies = array();
 		foreach($proxies as $proxy){
-			$results .= self::useProxy($proxy,self::keyword);
+			if(!empty($proxy)){
+				$results .= self::useProxy($proxy,self::$keyword);
+			}
 		}
 		
 		// update proxy list with only the proxies that worked
@@ -90,12 +96,12 @@ class proxies{
 		curl::$proxy;
 		$results = curl::results();
 		
-		if($results[info][http_code] == 200){
+		if((int) $results['info'] === 200){
 			self::$usedProxies[] = $proxy;
-			return '<div class="results">'.$results[data].'<div>';
+			return '<div class="results">'.htmlentities($results['data']).'<div>';
 		} else {
 			self::$unusableProxies[] = $proxy;
-			return '<div class="results">Unsable to retrieve results using proxy: '.$proxy.'<div>';
+			return '<div class="results">Unable to retrieve results using proxy: '.$proxy.'<div>';
 		}
 	
 	}

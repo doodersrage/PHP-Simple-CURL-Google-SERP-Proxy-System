@@ -15,8 +15,8 @@ class curl{
 		curl_setopt($ch, CURLOPT_HEADER, 1); 
 		$c = curl_exec($ch); 
 		$info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$results[data] = $c;
-		$results[info] = $info;
+		$results['data'] = $c;
+		$results['info'] = $info;
 		curl_close ($ch);
 		
 		return $results;

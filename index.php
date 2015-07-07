@@ -1,8 +1,11 @@
 <?PHP 
+error_reporting(-1);
+ini_set('display_errors', 'On');
+
 require('functions.php'); 
 
-if(isset($_POST[keywords])){
-	curl::$keyword = $_POST[keywords];
+if(isset($_POST['keywords'])){
+	curl::$keyword = $_POST['keywords'];
 	$results = proxies::walkProxies();
 }
 
@@ -12,6 +15,7 @@ if(isset($_POST[keywords])){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Multi Proxy Google SERP Crawler</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 <style>
 .results{
 	width:100%;
@@ -23,10 +27,15 @@ if(isset($_POST[keywords])){
 </head>
 
 <body>
-<form name="serp-crawler" id="serp-crawler" method="post" enctype="application/x-www-form-urlencoded">
-<label for="keywords">Keywords:</label><input type="text" name="keywords" id="keywords" />
-<input type="submit" name="submit" value="Search!" />
-</form>
-<?PHP if(isset($results)) echo $results; ?>
+	<div class="container">
+		<div class="row">
+			<form name="serp-crawler" id="serp-crawler" method="post" enctype="application/x-www-form-urlencoded">
+				<label for="keywords">Keywords:</label><input class="form-control" type="text" name="keywords" id="keywords" />
+				<input class="btn btn-default" type="submit" name="submit" value="Search!" />
+			</form>
+			<?PHP if(isset($results)) echo $results; ?>
+		</div>
+	</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>

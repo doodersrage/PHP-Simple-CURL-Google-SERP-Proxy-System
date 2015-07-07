@@ -13,14 +13,20 @@ $proxies = proxies::getProxiesTxt();
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Proxy List Updater</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-<form name="proxy-updater" id="proxy-updater" method="post" enctype="application/x-www-form-urlencoded">
-<label for="proxy-list">Proxy List:</label><br />
-<textarea name="proxy-list" id="proxy-list" rows="10" cols="80"><?PHP echo $proxies; ?></textarea><br>
-<input type="submit" name="submit" value="Process List"/>
-</form>
-<?PHP if(isset($results)) echo $results; ?>
+	<div class="container">
+		<div class="row">
+			<form name="proxy-updater" id="proxy-updater" method="post" enctype="application/x-www-form-urlencoded">
+				<label for="proxy-list">Proxy List:</label><br />
+				<textarea class="form-control" name="proxy-list" id="proxy-list" rows="10" cols="80"><?PHP echo $proxies; ?></textarea><br>
+				<input type="submit" class="btn btn-default" name="submit" value="Process List"/>
+			</form>
+			<?PHP if(isset($results)) echo $results; ?>
+		</div>
+	</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>
