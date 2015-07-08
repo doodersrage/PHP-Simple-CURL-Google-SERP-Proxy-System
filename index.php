@@ -20,8 +20,6 @@ if(isset($_POST['keywords'])){
 .results{
 	width:100%;
 	margin:10px;
-	height:150px;
-	overflow:scroll;
 }
 </style>
 </head>

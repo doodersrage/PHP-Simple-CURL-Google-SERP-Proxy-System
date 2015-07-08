@@ -1,7 +1,7 @@
 <?PHP
-//// enabled error output
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL | E_NOTICE);
+require 'vendor/autoload.php';
+require('vendor/simple-html-dom/simple-html-dom/simple_html_dom.php');
+
 
 // include required classes
 require('classes/file.php');

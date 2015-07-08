@@ -1,4 +1,5 @@
 <?PHP
+
 class proxies{
 	static $usedProxies = array();
 	static $unusableProxies = array();
@@ -10,7 +11,11 @@ class proxies{
 		if(empty($proxylist)){
 			$proxies = self::getProxies();
 		} else {
-			$proxies = explode("\n",$proxylist);
+			if(is_array($proxylist)){
+				$proxies = $proxylist;
+			} else {
+				$proxies = explode("\n",$proxylist);
+			}
 		}
 		
 		$usableProxies = array();
@@ -89,6 +94,23 @@ class proxies{
 		
 		return $results;
 	}
+
+	// walk through found doc dom, generate results
+	public static function filterResults($results){
+		$html = str_get_html($results);
+
+		$foundLinks = 1;
+		$foundLinksStr = '';
+
+		foreach($html->find('li.g') as $link) {
+
+			$foundLinksStr .=  $foundLinks . '. ' . $link->find('h3.r', 0)->plaintext . '<br>';
+			++$foundLinks;
+
+		}
+
+		return $foundLinksStr;
+	}
 	
 	// test selected proxy value with assigned keyword
 	private function useProxy($proxy){
@@ -97,8 +119,14 @@ class proxies{
 		$results = curl::results();
 		
 		if((int) $results['info'] === 200){
+			$foundLinksStr = self::filterResults($results['data']);
 			self::$usedProxies[] = $proxy;
-			return '<div class="results">'.htmlentities($results['data']).'<div>';
+			return '<div class="results">'
+					.'<h3>'.$proxy.'</h3>'
+					.'<div>'
+					.$foundLinksStr
+					.'</div>'
+					.'<div>';
 		} else {
 			self::$unusableProxies[] = $proxy;
 			return '<div class="results">Unable to retrieve results using proxy: '.$proxy.'<div>';
