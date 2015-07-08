@@ -1,0 +1,11 @@
+{
+	"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/miclf/simple-html-dom"
+    }
+	],
+	"require": {
+	    "simple-html-dom/simple-html-dom": "*"
+	}
+}
